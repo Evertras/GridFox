@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Artist Gridder</title>
+        
+        <style>
+            body{ background-color: ivory; }
+            canvas{border:1px solid red;cursor:all-scroll;}
+            button:focus {outline:0 !important;}
+        </style>
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    </head>
+    <body ng-app="artistGridder">
+        <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/camanjs/4.0.0/caman.full.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <script src="agCanvas.js"></script>
+        <script src="app.js"></script>
+
+        <div class="container" ng-controller="mainController as mainCtrl">
+            <div class="btn-group">
+                <button class="btn btn-default" ng-class="{active:mainCtrl.drawThirds}" ng-click="mainCtrl.drawThirds = !mainCtrl.drawThirds">Thirds</button>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-default" ng-click="mainCtrl.zoomOut()"><span class="glyphicon glyphicon-zoom-out"></span></button>
+                <button class="btn btn-default" ng-click="mainCtrl.zoomIn()"><span class="glyphicon glyphicon-zoom-in"></span></button>
+            </div>
+            <div class="col-sm-3">
+                <div class="input-group">
+                    <span class="input-group-addon">Width:</span>
+                    <input type="number" class="form-control" ng-model="mainCtrl.width" />
+                    <span class="input-group-addon">Height:</span>
+                    <input type="number" class="form-control" ng-model="mainCtrl.height" />
+                </div>
+            </div>
+            <p>&nbsp;</p>
+            <div class="col-sm-12">
+                <canvas id="mainCanvas" width=600 height=400></canvas>
+            </div>
+            <div>
+                <button class="btn" onclick="$('#imageFile').click()">Upload Image</button>
+                <input style="position:absolute; top:-1000px" type="file" id="imageFile" onchange="angular.element(this).scope().fileNameChanged()" />
+            </div>
+        </div>
+    </body>
+</html>

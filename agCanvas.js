@@ -59,25 +59,75 @@
                 imageWidth,
                 imageHeight);
             
-            if (imageAlterations.shouldDrawThirds)
+            if (imageAlterations.gridMode == "thirds")
             {
                 drawThirds();
+            }
+            else if (imageAlterations.gridMode == "phi")
+            {
+                drawPhi();
+            }
+            else if (imageAlterations.gridMode == "custom")
+            {
+                for (var i = 0; i < imageAlterations.gridLinesX; ++i)
+                {
+                    var x = canvas.width * (i + 1) / (imageAlterations.gridLinesX + 1);
+                    context.beginPath();
+                    context.moveTo(x, 0);
+                    context.lineTo(x, canvas.height);
+                    context.stroke();
+                }
+                
+                for (var i = 0; i < imageAlterations.gridLinesY; ++i)
+                {
+                    var y = canvas.height * (i + 1) / (imageAlterations.gridLinesY + 1);
+                    context.beginPath();
+                    context.moveTo(0, y);
+                    context.lineTo(canvas.width, y);
+                    context.stroke();
+                }
             }
         }
         
         function drawThirds() {
-            context.beginPath();
-            
             for (var i = 1; i < 3; ++i)
             {
+                context.beginPath();
                 context.moveTo(canvas.width * i / 3, 0);
                 context.lineTo(canvas.width * i / 3, canvas.height);
                 context.stroke();
                 
+                context.beginPath();
                 context.moveTo(0, canvas.height * i / 3);
                 context.lineTo(canvas.width, canvas.height * i / 3);
                 context.stroke();
             }
+        }
+        
+        function drawPhi() {
+            var phi = 1.618;
+            var offsetX = (phi-1)/2 * canvas.width;
+            var offsetY = (phi-1)/2 * canvas.height;
+
+            context.beginPath();
+            context.moveTo(canvas.width / 3 + offsetX, 0);
+            context.lineTo(canvas.width / 3 + offsetX, canvas.height);
+            context.stroke();
+            
+            context.beginPath();
+            context.moveTo(canvas.width * 2 / 3 - offsetX, 0);
+            context.lineTo(canvas.width * 2 / 3 - offsetX, canvas.height);
+            context.stroke();
+            
+            context.beginPath();
+            context.moveTo(0, canvas.height/ 3 + offsetY);
+            context.lineTo(canvas.width, canvas.height / 3 + offsetY);
+            context.stroke();
+            
+            context.beginPath();
+            context.moveTo(0, canvas.height * 2 / 3 - offsetY);
+            context.lineTo(canvas.width, canvas.height * 2 / 3 - offsetY);
+            context.stroke();
         }
         
         function handleMouseDown(e){
@@ -124,8 +174,10 @@
                     x: 0,
                     y: 0
                 },
-                shouldDrawThirds: false,
-                zoomFactor: 1.0
+                gridMode: "",
+                zoomFactor: 1.0,
+                gridLinesX: 0,
+                gridLinesY: 0
             };
         }
         
@@ -211,15 +263,8 @@
                 this.loadLocal();
             },
             
-            toggleDrawThirds: function(shouldDraw) {
-                if (shouldDraw == null)
-                {
-                    imageAlterations.shouldDrawThirds = !imageAlterations.shouldDrawThirds;
-                }
-                else
-                {
-                    imageAlterations.shouldDrawThirds = shouldDraw;
-                }
+            setGridMode: function(gridMode) {
+                imageAlterations.gridMode = gridMode;
                 
                 saveImageAlterations();
                 
@@ -295,6 +340,62 @@
             loadImageSrc: function (src) {
                 resetImageAlterations();
                 image.src = src;
+            },
+            
+            incGridX: function() {
+                if (imageAlterations.gridLinesX == null)
+                {
+                    imageAlterations.gridLinesX = 0;
+                }
+
+                imageAlterations.gridLinesX++;
+                
+                saveImageAlterations();
+                
+                draw();
+            },
+            
+            decGridX: function() {
+                if (imageAlterations.gridLinesX == null || imageAlterations.gridLinesX <= 0)
+                {
+                    imageAlterations.gridLinesX = 0;
+                }
+                else
+                {
+                    imageAlterations.gridLinesX--;
+                }
+                
+                saveImageAlterations();
+                
+                draw();
+            },
+            
+            incGridY: function() {
+                if (imageAlterations.gridLinesY == null)
+                {
+                    imageAlterations.gridLinesY = 0;
+                }
+
+                imageAlterations.gridLinesY++;
+                
+                saveImageAlterations();
+                
+                draw();
+            },
+            
+            decGridY: function() {
+                if (imageAlterations.gridLinesY == null || imageAlterations.gridLinesY <= 0)
+                {
+                    imageAlterations.gridLinesY = 0;
+                }
+                else
+                {
+                    imageAlterations.gridLinesY--;
+                }
+                
+                saveImageAlterations();
+                
+                draw();
             }
         };
         

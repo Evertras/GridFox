@@ -1,5 +1,5 @@
 (function() {
-    var app = angular.module('artistGridder', ['agCanvas']);
+    var app = angular.module('gridFox', ['agCanvas']);
     
     app.controller('mainController', ['$scope', 'agCanvasService', function($scope, agCanvasService) {
         var self = this;
@@ -11,11 +11,11 @@
         
         if (imageAlterations)
         {
-            self.drawThirds = imageAlterations.shouldDrawThirds;
+            self.gridMode = imageAlterations.gridMode;
         }
         else
         {
-            self.drawThirds = false;
+            self.gridMode = "";
         }
         
         if (canvasSettings)
@@ -39,6 +39,43 @@
             agCanvasService.adjustZoomFactor(-0.025);
         };
         
+        function refreshGridLineCounts()
+        {
+            self.gridLinesX = agCanvasService.getImageAlterations().gridLinesX;
+            self.gridLinesY = agCanvasService.getImageAlterations().gridLinesY;
+        }
+        
+        refreshGridLineCounts();
+        
+        self.incGridX = function()
+        {
+            agCanvasService.incGridX();
+            refreshGridLineCounts();
+        };
+        
+        self.decGridX = function()
+        {
+            agCanvasService.decGridX();
+            refreshGridLineCounts();
+        };
+        
+        self.incGridY = function()
+        {
+            agCanvasService.incGridY();
+            refreshGridLineCounts();
+        };
+        
+        self.decGridY = function()
+        {
+            agCanvasService.decGridY();
+            refreshGridLineCounts();
+        };
+        
+        self.setGridMode = function(gridMode)
+        {
+            agCanvasService.setGridMode(gridMode);
+        };
+        
         $scope.fileNameChanged = function()
         {
             var file = $("#imageFile")[0].files[0];
@@ -48,13 +85,6 @@
             };
             reader.readAsDataURL(file);
         };
-        
-        $scope.$watch(
-            function() { return self.drawThirds; },
-            function(newValue, oldValue) {
-                agCanvasService.toggleDrawThirds(self.drawThirds);
-            }
-        );
         
         $scope.$watch(
             function() { return self.width; },

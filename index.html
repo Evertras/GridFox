@@ -9,7 +9,7 @@
             background-color: ivory;
         }
         canvas {
-            border: 1px solid red;
+            border: 3px solid gray;
             cursor: all-scroll;
         }
         button:focus {
@@ -65,7 +65,7 @@
             <div class="col-sm-12">
                 <canvas id="mainCanvas" width=600 height=400></canvas>
             </div>
-            <div>
+            <div class="hidden-print">
                 <button class="btn" onclick="$('#imageFile').click()">Upload Image</button>
                 <input style="position:absolute; top:-1000px" type="file" id="imageFile" onchange="angular.element(this).scope().fileNameChanged()" />
             </div>

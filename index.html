@@ -61,15 +61,21 @@
                 </div>
             </div>
             
-            <button class="btn btn-default" ng-click="mainCtrl.zoomOut()"><span class="glyphicon glyphicon-zoom-out"></span>
-            </button>
-            <button class="btn btn-default" ng-click="mainCtrl.zoomIn()"><span class="glyphicon glyphicon-zoom-in"></span>
-            </button>
-            <div class="input-group">
-                <span class="input-group-addon">Width:</span>
-                <input type="number" class="form-control" ng-model="mainCtrl.width" />
-                <span class="input-group-addon">Height:</span>
-                <input type="number" class="form-control" ng-model="mainCtrl.height" />
+            <div class="btn-toolbar">
+                <div class="input-group">
+                    <span class="input-group-addon">Width:</span>
+                    <input type="number" class="form-control" ng-model="mainCtrl.width" />
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Height:</span>
+                    <input type="number" class="form-control" ng-model="mainCtrl.height" />
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-default" ng-click="mainCtrl.zoomOut()"><span class="glyphicon glyphicon-zoom-out"></span>
+                    </button>
+                    <button class="btn btn-default" ng-click="mainCtrl.zoomIn()"><span class="glyphicon glyphicon-zoom-in"></span>
+                    </button>
+                </div>
             </div>
         </div>
         <div class="row">

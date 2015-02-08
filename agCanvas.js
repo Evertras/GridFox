@@ -109,27 +109,26 @@
         
         function drawPhi() {
             var phi = 1.618;
-            var offsetX = (phi-1)/2 * canvas.width;
-            var offsetY = (phi-1)/2 * canvas.height;
+            var ratioMult = 1 / (phi + 1);
 
             context.beginPath();
-            context.moveTo(canvas.width / 3 + offsetX, 0);
-            context.lineTo(canvas.width / 3 + offsetX, canvas.height);
+            context.moveTo(ratioMult * canvas.width, 0);
+            context.lineTo(ratioMult * canvas.width, canvas.height);
             context.stroke();
             
             context.beginPath();
-            context.moveTo(canvas.width * 2 / 3 - offsetX, 0);
-            context.lineTo(canvas.width * 2 / 3 - offsetX, canvas.height);
+            context.moveTo(canvas.width - (ratioMult * canvas.width), 0);
+            context.lineTo(canvas.width - (ratioMult * canvas.width), canvas.height);
             context.stroke();
             
             context.beginPath();
-            context.moveTo(0, canvas.height/ 3 + offsetY);
-            context.lineTo(canvas.width, canvas.height / 3 + offsetY);
+            context.moveTo(0, ratioMult * canvas.height);
+            context.lineTo(canvas.width, ratioMult * canvas.height);
             context.stroke();
             
             context.beginPath();
-            context.moveTo(0, canvas.height * 2 / 3 - offsetY);
-            context.lineTo(canvas.width, canvas.height * 2 / 3 - offsetY);
+            context.moveTo(0, canvas.height - ratioMult * canvas.height);
+            context.lineTo(canvas.width, canvas.height - ratioMult * canvas.height);
             context.stroke();
         }
         

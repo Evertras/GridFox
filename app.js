@@ -50,33 +50,34 @@
         self.incGridX = function()
         {
             agCanvasService.incGridX();
-            agCanvasService.setGridMode('custom');
+            self.setGridMode('custom');
             refreshGridLineCounts();
         };
         
         self.decGridX = function()
         {
             agCanvasService.decGridX();
-            agCanvasService.setGridMode('custom');
+            self.setGridMode('custom');
             refreshGridLineCounts();
         };
         
         self.incGridY = function()
         {
             agCanvasService.incGridY();
-            agCanvasService.setGridMode('custom');
+            self.setGridMode('custom');
             refreshGridLineCounts();
         };
         
         self.decGridY = function()
         {
             agCanvasService.decGridY();
-            agCanvasService.setGridMode('custom');
+            self.setGridMode('custom');
             refreshGridLineCounts();
         };
         
         self.setGridMode = function(gridMode)
         {
+            self.gridMode = gridMode;
             agCanvasService.setGridMode(gridMode);
         };
         

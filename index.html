@@ -33,14 +33,24 @@
             <div class="btn-toolbar">
                 <div class="btn-group">
                     <button class="btn btn-default" disabled>Grids:</button>
-                    <button class="btn btn-default" ng-click="mainCtrl.setGridMode('')">None</button>
-                    <button class="btn btn-default" ng-click="mainCtrl.setGridMode('thirds')">
+                    <button class="btn btn-default"
+                        ng-class="{active: mainCtrl.gridMode == ''}"
+                        ng-click="mainCtrl.setGridMode('')">
+                        None
+                    </button>
+                    <button class="btn btn-default"
+                        ng-class="{active: mainCtrl.gridMode == 'thirds'}"
+                        ng-click="mainCtrl.setGridMode('thirds')">
                         Thirds
                     </button>
-                    <button class="btn btn-default" ng-click="mainCtrl.setGridMode('phi')">
+                    <button class="btn btn-default"
+                        ng-class="{active: mainCtrl.gridMode == 'phi'}"
+                        ng-click="mainCtrl.setGridMode('phi')">
                         Phi
                     </button>
-                    <button class="btn btn-default" ng-click="mainCtrl.setGridMode('custom')">
+                    <button class="btn btn-default"
+                        ng-class="{active: mainCtrl.gridMode == 'custom'}"
+                        ng-click="mainCtrl.setGridMode('custom')">
                         Other:
                     </button>
                 </div>

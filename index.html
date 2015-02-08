@@ -29,28 +29,37 @@
     <script src="app.js"></script>
 
     <div class="container" ng-controller="mainController as mainCtrl">
-        <nav class="navbar navbar-default">
-            Grids: 
-            <button class="btn btn-default" ng-click="mainCtrl.setGridMode('')">None</button>
-            <button class="btn btn-default" ng-click="mainCtrl.setGridMode('thirds')">
-                Thirds
-            </button>
-            <button class="btn btn-default" ng-click="mainCtrl.setGridMode('phi')">
-                Phi
-            </button>
-            <button class="btn btn-default" ng-click="mainCtrl.setGridMode('custom')">
-                Other:
-            </button>
-            X: {{mainCtrl.gridLinesX}}
-            <button class="btn btn-default" ng-click="mainCtrl.decGridX()"><span class="glyphicon glyphicon-minus"></span>
-            </button>
-            <button class="btn btn-default" ng-click="mainCtrl.incGridX()"><span class="glyphicon glyphicon-plus"></span>
-            </button>
-            Y: {{mainCtrl.gridLinesY}}
-            <button class="btn btn-default" ng-click="mainCtrl.decGridY()"><span class="glyphicon glyphicon-minus"></span>
-            </button>
-            <button class="btn btn-default" ng-click="mainCtrl.incGridY()"><span class="glyphicon glyphicon-plus"></span>
-            </button>
+        <div class="input-group">
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    <button class="btn btn-default" disabled>Grids:</button>
+                    <button class="btn btn-default" ng-click="mainCtrl.setGridMode('')">None</button>
+                    <button class="btn btn-default" ng-click="mainCtrl.setGridMode('thirds')">
+                        Thirds
+                    </button>
+                    <button class="btn btn-default" ng-click="mainCtrl.setGridMode('phi')">
+                        Phi
+                    </button>
+                    <button class="btn btn-default" ng-click="mainCtrl.setGridMode('custom')">
+                        Other:
+                    </button>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn btn-default" ng-click="mainCtrl.decGridX()"><span class="glyphicon glyphicon-minus"></span>
+                    </button>
+                    <button class="btn btn-default" disabled>X: {{mainCtrl.gridLinesX}}</button>
+                    <button class="btn btn-default" ng-click="mainCtrl.incGridX()"><span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-default" ng-click="mainCtrl.decGridY()"><span class="glyphicon glyphicon-minus"></span>
+                    </button>
+                    <button class="btn btn-default" disabled>Y: {{mainCtrl.gridLinesY}}</button>
+                    <button class="btn btn-default" ng-click="mainCtrl.incGridY()"><span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                </div>
+            </div>
             
             <button class="btn btn-default" ng-click="mainCtrl.zoomOut()"><span class="glyphicon glyphicon-zoom-out"></span>
             </button>
@@ -62,7 +71,7 @@
                 <span class="input-group-addon">Height:</span>
                 <input type="number" class="form-control" ng-model="mainCtrl.height" />
             </div>
-        </nav>
+        </div>
         <div class="row">
             <div class="col-sm-12">
                 <canvas id="mainCanvas" width=600 height=400></canvas>

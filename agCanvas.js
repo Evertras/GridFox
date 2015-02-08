@@ -23,6 +23,7 @@
         
         var image = new Image();
         
+        image.setAttribute('crossOrigin', 'anonymous');
         image.onload = saveAndDraw;
         
         function saveAndDraw() {
@@ -340,9 +341,11 @@
             },
             
             loadImageSrc: function (src) {
-                resetImageAlterations();
-                image.src = src;
-                image.onload = saveAndDraw;
+                if (src)
+                {
+                    resetImageAlterations();
+                    image.src = src;
+                }
             },
             
             incGridX: function() {

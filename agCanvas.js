@@ -209,7 +209,7 @@
             var ctx = tempCanvas.getContext("2d");
             ctx.drawImage(image, 0, 0);
 
-            var dataURL = tempCanvas.toDataURL("image/png");
+            var dataURL = tempCanvas.toDataURL("image/jpg");
         
             dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
             localStorage.setItem('image', dataURL);

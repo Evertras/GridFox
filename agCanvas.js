@@ -23,10 +23,12 @@
         
         var image = new Image();
         
-        image.onload = function() {
+        image.onload = saveAndDraw;
+        
+        function saveAndDraw() {
             saveImage();
             draw();
-        };
+        }
         
         function draw() {
             context.clearRect(0, 0, canvas.width, canvas.height);
@@ -340,6 +342,7 @@
             loadImageSrc: function (src) {
                 resetImageAlterations();
                 image.src = src;
+                image.onload = saveAndDraw;
             },
             
             incGridX: function() {

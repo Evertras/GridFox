@@ -76,6 +76,11 @@
             agCanvasService.setGridMode(gridMode);
         };
         
+        self.loadFromUrl = function()
+        {
+            agCanvasService.loadImageSrc(self.fromUrl);
+        };
+        
         $scope.fileNameChanged = function()
         {
             var file = $("#imageFile")[0].files[0];

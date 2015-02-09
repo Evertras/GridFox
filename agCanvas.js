@@ -61,6 +61,17 @@
                 imageAlterations.offset.y * adjustedZoomFactor,
                 imageWidth,
                 imageHeight);
+                
+            context.lineWidth = imageAlterations.gridLineWidth;
+            
+            if (imageAlterations.gridColor == "white")
+            {
+                context.strokeStyle = "#ffffff";
+            }
+            else
+            {
+                context.strokeStyle = "#000000";
+            }
             
             if (imageAlterations.gridMode == "thirds")
             {
@@ -179,7 +190,8 @@
                 gridMode: "",
                 zoomFactor: 1.0,
                 gridLinesX: 0,
-                gridLinesY: 0
+                gridLinesY: 0,
+                gridLineWidth: 1
             };
         }
         
@@ -211,7 +223,21 @@
             var dataURL = tempCanvas.toDataURL("image/jpg");
         
             dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-            localStorage.setItem('image', dataURL);
+            
+            console.log("size before: " + dataURL.length);
+            
+            //var compressed = LZString.compressToUTF16(dataURL);
+            
+            //console.log('size after: ' + compressed.length);
+            
+            try {
+                localStorage.setItem('image', dataURL);
+            }
+            catch (error)
+            {
+                console.log("Error when saving: " + error);
+                localStorage.clear();
+            }
         }
         
         function loadImage()
@@ -397,6 +423,42 @@
                 {
                     imageAlterations.gridLinesY--;
                 }
+                
+                saveImageAlterations();
+                
+                draw();
+            },
+            
+            incGridWidth: function() {
+                if (imageAlterations.gridLineWidth == null)
+                {
+                    imageAlterations.gridLineWidth = 0;
+                }
+                
+                imageAlterations.gridLineWidth++;
+                
+                saveImageAlterations();
+                
+                draw();
+            },
+            
+            decGridWidth: function() {
+                if (imageAlterations.gridLineWidth == null || imageAlterations.gridLineWidth <= 1)
+                {
+                    imageAlterations.gridLineWidth = 1;
+                }
+                else
+                {
+                    imageAlterations.gridLineWidth--;
+                }
+                
+                saveImageAlterations();
+                
+                draw();
+            },
+            
+            setGridColor: function(gridColor) {
+                imageAlterations.gridColor = gridColor;
                 
                 saveImageAlterations();
                 

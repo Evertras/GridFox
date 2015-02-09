@@ -43,6 +43,8 @@
         {
             self.gridLinesX = agCanvasService.getImageAlterations().gridLinesX;
             self.gridLinesY = agCanvasService.getImageAlterations().gridLinesY;
+            self.gridLineWidth = agCanvasService.getImageAlterations().gridLineWidth;
+            self.gridColor = agCanvasService.getImageAlterations().gridColor;
         }
         
         refreshGridLineCounts();
@@ -75,10 +77,28 @@
             refreshGridLineCounts();
         };
         
+        self.incGridWidth = function()
+        {
+            agCanvasService.incGridWidth();
+            refreshGridLineCounts();
+        };
+        
+        self.decGridWidth = function()
+        {
+            agCanvasService.decGridWidth();
+            refreshGridLineCounts();
+        };
+        
         self.setGridMode = function(gridMode)
         {
             self.gridMode = gridMode;
             agCanvasService.setGridMode(gridMode);
+        };
+        
+        self.setGridColor = function(gridColor)
+        {
+            self.gridColor = gridColor;
+            agCanvasService.setGridColor(gridColor);
         };
         
         self.loadFromUrl = function()

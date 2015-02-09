@@ -1,0 +1,12 @@
+<button class="btn" onclick="$('#imageFile').click()">Upload Image</button>
+<input style="position:absolute; top:-1000px" type="file" id="imageFile" onchange="angular.element(this).scope().fileNameChanged()" />
+<button class="btn" onclick="window.print()">Print</button>
+<!--<div class="col-sm-4">
+    <div class="input-group hidden">
+        <span class="input-group-addon">From URL:</span>
+        <input class="form-control" ng-model="mainCtrl.fromUrl" />
+        <span class="input-group-btn">
+            <button class="btn btn-default" ng-click="mainCtrl.loadFromUrl()">Load</button>
+        </span>
+    </div>
+</div>-->

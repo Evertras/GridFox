@@ -21,6 +21,16 @@
                     self.width = 24;
                 }
                 
+                self.zoomIn = function()
+                {
+                    agCanvasService.adjustZoomFactor(0.025);
+                };
+                
+                self.zoomOut = function()
+                {
+                    agCanvasService.adjustZoomFactor(-0.025);
+                };
+                
                 $scope.$watch(
                     function() { return self.width; },
                     function(newValue, oldValue) {

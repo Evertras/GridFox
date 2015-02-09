@@ -22,6 +22,11 @@
                 image.onload = draw;
                 
                 image.src = agCanvasService.getImageSrc();
+                
+                canvas.onmousedown = handleMouseDown;
+                canvas.onmouseup = handleMouseUp;
+                canvas.onmousemove = handleMouseMove;
+                canvas.onmouseout = handleMouseOut;
 
                 function draw() {
                     context.clearRect(0, 0, canvas.width, canvas.height);

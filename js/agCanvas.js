@@ -25,6 +25,8 @@
                 gridLinesY: 0,
                 gridLineWidth: 1
             };
+            
+            broadcastImageAlterationsUpdated();
         }
 
         function broadcastImageAlterationsUpdated() {

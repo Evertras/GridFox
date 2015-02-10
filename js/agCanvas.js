@@ -10,8 +10,33 @@
             userWidth: 24,
             userHeight: 18
         };
+        
+        var imageFilters = {
+            filterGrayscale: false,
+        };
 
         var imageSrc = "pikachu.gif";
+        
+        function broadcastImageFiltersUpdated() {
+            $rootScope.$broadcast("user:imageFiltersUpdated", imageFilters);
+        }
+        
+        function saveImageFilters() {
+            localStorage.setItem('imageFilters', JSON.stringify(imageFilters));
+            
+            broadcastImageFiltersUpdated();
+        }
+        
+        function loadImageFilters() {
+            var loadedFilters = localStorage.getItem('imageFilters');
+            
+            if (loadedFilters)
+            {
+                imageFilters = JSON.parse(loadedFilters);
+                
+                broadcastImageFiltersUpdated();
+            }
+        }
 
         function resetImageAlterations() {
             imageAlterations = {
@@ -19,11 +44,12 @@
                     x: 0,
                     y: 0
                 },
-                gridMode: "",
                 zoomFactor: 1.0,
+                
+                gridMode: "",
                 gridLinesX: 0,
                 gridLinesY: 0,
-                gridLineWidth: 1
+                gridLineWidth: 1,
             };
             
             broadcastImageAlterationsUpdated();
@@ -84,7 +110,14 @@
             if (src) {
                 imageSrc = src;
                 
-                saveImage(src);
+                var image = new Image();
+                
+                image.onload = function()
+                {
+                    saveImage(image);
+                };
+                
+                image.src = src;
             }
             else {
                 var loadedImage = localStorage.getItem('image');
@@ -145,6 +178,10 @@
             getImageAlterations: function() {
                 return imageAlterations;
             },
+            
+            getImageFilters: function() {
+                return imageFilters;
+            },
 
             resizeCanvasRatio: function(width, height) {
                 canvasSettings.userWidth = width;
@@ -155,12 +192,14 @@
 
             saveLocal: function() {
                 saveImage();
+                saveImageFilters();
                 saveImageAlterations();
                 saveCanvasSettings();
             },
 
             loadLocal: function() {
                 loadImage();
+                loadImageFilters();
                 loadCanvasSettings();
                 loadImageAlterations();
             },
@@ -171,6 +210,20 @@
 
                     loadImage(src);
                 }
+            },
+            
+            setOffset: function(x, y) {
+                imageAlterations.offset.x = x;
+                imageAlterations.offset.y = y;
+                
+                saveImageAlterations();
+            },
+            
+            adjustOffset: function(dx, dy) {
+                imageAlterations.offset.x += dx;
+                imageAlterations.offset.y += dy;
+                
+                saveImageAlterations();
             },
             
             getImageSrc: function() {
@@ -249,6 +302,26 @@
                 imageAlterations.gridColor = gridColor;
 
                 saveImageAlterations();
+            },
+            
+            toggleGrayscale: function(enabled) {
+                if (enabled || enabled === false)
+                {
+                    imageFilters.filterGrayscale = enabled;
+                }
+                else
+                {
+                    if (imageFilters.filterGrayscale)
+                    {
+                        imageFilters.filterGrayscale = false;
+                    }
+                    else
+                    {
+                        imageFilters.filterGrayscale = true;
+                    }
+                }
+                
+                saveImageFilters();
             }
         };
         

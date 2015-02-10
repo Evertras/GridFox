@@ -31,6 +31,11 @@
                     agCanvasService.adjustZoomFactor(-0.025);
                 };
                 
+                self.toggleGrayscale = function()
+                {
+                    agCanvasService.toggleGrayscale();
+                };
+                
                 $scope.$watch(
                     function() { return self.width; },
                     function(newValue, oldValue) {

@@ -8,8 +8,10 @@
             controller: ['$scope', '$window', 'agCanvasService', function($scope, $window, agCanvasService) {
                 var self = this;
                 
-                var canvas = $("canvas")[0];
+                var canvas = $("#mainCanvas")[0];
+                var camanCanvas = $("#camanCanvas")[0];
                 var context = canvas.getContext('2d');
+                var camanContext = camanCanvas.getContext('2d');
                 
                 var isDragging = false;
                 var initialMousePos = {
@@ -19,7 +21,10 @@
                 
                 var image = new Image();
 
-                image.onload = draw;
+                image.onload = function() {
+                    updateSizing();
+                    renderImage();
+                };
                 
                 image.src = agCanvasService.getImageSrc();
                 
@@ -27,39 +32,30 @@
                 canvas.onmouseup = handleMouseUp;
                 canvas.onmousemove = handleMouseMove;
                 canvas.onmouseout = handleMouseOut;
+                
+                function renderImage() {
+                    var imageFilters = agCanvasService.getImageFilters();
+
+                    Caman(camanCanvas, image.src, function() {
+                        this.revert();
+
+                        if (imageFilters.filterGrayscale)
+                        {
+                            this.greyscale();
+                        }
+
+                        this.render(function() {
+                            draw();
+                        });
+                    });
+                }
 
                 function draw() {
                     context.clearRect(0, 0, canvas.width, canvas.height);
                     
-                    var imageWidth;
-                    var imageHeight;
-                    
-                    var imageRatio = image.width / image.height;
-                    var canvasRatio = canvas.width / canvas.height;
-                    
                     var imageAlterations = agCanvasService.getImageAlterations();
                     
-                    if (imageRatio > canvasRatio)
-                    {
-                        imageHeight = canvas.height;
-                        imageWidth = imageHeight * imageRatio;
-                    }
-                    else
-                    {
-                        imageWidth = canvas.width;
-                        imageHeight = imageWidth / imageRatio;
-                    }
-                    
-                    imageWidth *= imageAlterations.zoomFactor;
-                    imageHeight *= imageAlterations.zoomFactor;
-                    var adjustedZoomFactor = canvas.width / image.width * imageAlterations.zoomFactor;
-                    
-                    
-                    context.drawImage(image,
-                        imageAlterations.offset.x * adjustedZoomFactor,
-                        imageAlterations.offset.y * adjustedZoomFactor,
-                        imageWidth,
-                        imageHeight);
+                    drawImage(imageAlterations);
                         
                     context.lineWidth = imageAlterations.gridLineWidth;
                     
@@ -82,24 +78,38 @@
                     }
                     else if (imageAlterations.gridMode == "custom")
                     {
-                        for (var i = 0; i < imageAlterations.gridLinesX; ++i)
-                        {
-                            var x = canvas.width * (i + 1) / (imageAlterations.gridLinesX + 1);
-                            context.beginPath();
-                            context.moveTo(x, 0);
-                            context.lineTo(x, canvas.height);
-                            context.stroke();
-                        }
-                        
-                        for (var i = 0; i < imageAlterations.gridLinesY; ++i)
-                        {
-                            var y = canvas.height * (i + 1) / (imageAlterations.gridLinesY + 1);
-                            context.beginPath();
-                            context.moveTo(0, y);
-                            context.lineTo(canvas.width, y);
-                            context.stroke();
-                        }
+                        drawCustomGrid(imageAlterations.gridLinesX, imageAlterations.gridLinesY);
                     }
+                }
+                
+                function drawImage(imageAlterations) {
+                    var imageWidth;
+                    var imageHeight;
+                    
+                    var imageRatio = image.width / image.height;
+                    var canvasRatio = canvas.width / canvas.height;
+
+                    if (imageRatio > canvasRatio)
+                    {
+                        imageHeight = canvas.height;
+                        imageWidth = imageHeight * imageRatio;
+                    }
+                    else
+                    {
+                        imageWidth = canvas.width;
+                        imageHeight = imageWidth / imageRatio;
+                    }
+                    
+                    imageWidth *= imageAlterations.zoomFactor;
+                    imageHeight *= imageAlterations.zoomFactor;
+
+                    var adjustedZoomFactor = canvas.width / image.width * imageAlterations.zoomFactor;
+                    
+                    context.drawImage(camanCanvas,
+                        imageAlterations.offset.x * adjustedZoomFactor,
+                        imageAlterations.offset.y * adjustedZoomFactor,
+                        imageWidth,
+                        imageHeight);
                 }
                 
                 function drawThirds() {
@@ -142,6 +152,26 @@
                     context.stroke();
                 }
                 
+                function drawCustomGrid(gridLinesX, gridLinesY) {
+                    for (var i = 0; i < gridLinesX; ++i)
+                    {
+                        var x = canvas.width * (i + 1) / (gridLinesX + 1);
+                        context.beginPath();
+                        context.moveTo(x, 0);
+                        context.lineTo(x, canvas.height);
+                        context.stroke();
+                    }
+
+                    for (var i = 0; i < gridLinesY; ++i)
+                    {
+                        var y = canvas.height * (i + 1) / (gridLinesY + 1);
+                        context.beginPath();
+                        context.moveTo(0, y);
+                        context.lineTo(canvas.width, y);
+                        context.stroke();
+                    }
+                }
+                
                 function handleMouseDown(e){
                     updateMousePos(e);
                     
@@ -169,14 +199,11 @@
                       var changeX = parseInt(e.clientX, 10) - initialMousePos.x;
                       var changeY = parseInt(e.clientY, 10) - initialMousePos.y;
                       
-                      imageAlterations.offset.x += adjustment * changeX;
-                      imageAlterations.offset.y += adjustment * changeY;
+                      agCanvasService.adjustOffset(adjustment * changeX, adjustment * changeY);
                       
                       updateMousePos(e);
                       
                       draw();
-                      
-                      //saveImageAlterations();
                   }
                 }
                 
@@ -187,6 +214,14 @@
                 };
                 
                 function updateSizing(width, height) {
+                    if (!width || !height)
+                    {
+                        var canvasSettings = agCanvasService.getCanvasSettings();
+                        
+                        width = canvasSettings.userWidth;
+                        height = canvasSettings.userHeight;
+                    }
+                    
                     var ratio = height / width;
 
                     width = $window.innerWidth * 2 / 3;
@@ -219,7 +254,12 @@
                 $scope.$on('user:imageSrcUpdated', function(event, data) {
                     image.src = data;
                 });
-            }]
+                
+                $scope.$on('user:imageFiltersUpdated', function(event, data) {
+                    renderImage();
+                });
+            }],
+            controllerAs: 'gridCanvasCtrl'
         };
     });
 })();

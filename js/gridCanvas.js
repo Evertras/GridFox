@@ -10,7 +10,6 @@
                 
                 var canvas = $("#mainCanvas")[0];
                 var camanCanvas = $("#camanCanvas")[0];
-                var camanInstance = null;
                 var context = canvas.getContext('2d');
                 var camanContext = camanCanvas.getContext('2d');
                 
@@ -23,6 +22,9 @@
                 var image = new Image();
 
                 image.onload = function() {
+                    // reloadCanvasData was giving weird errors, this is hacky but it should work
+                    $(camanCanvas).removeAttr("data-caman-id");
+
                     updateSizing();
                     renderImage();
                 };
@@ -54,11 +56,8 @@
                 
                 function renderImage() {
                     var imageFilters = agCanvasService.getImageFilters();
-                    
-                    // reloadCanvasData was giving weird errors, this is hacky but it should work
-                    $(camanCanvas).removeAttr("data-caman-id");
 
-                    camanInstance = Caman(camanCanvas, agCanvasService.getImageSrc(), function() {
+                    Caman(camanCanvas, agCanvasService.getImageSrc(), function() {
                         this.revert();
                         
                         if (imageFilters.filterPosterize)

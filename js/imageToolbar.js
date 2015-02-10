@@ -36,6 +36,11 @@
                     agCanvasService.toggleGrayscale();
                 };
                 
+                self.togglePosterize = function()
+                {
+                    agCanvasService.togglePosterize();
+                };
+                
                 $scope.$watch(
                     function() { return self.width; },
                     function(newValue, oldValue) {

@@ -13,6 +13,7 @@
         
         var imageFilters = {
             filterGrayscale: false,
+            filterPosterize: false
         };
 
         var imageSrc = "pikachu.gif";
@@ -318,6 +319,26 @@
                     else
                     {
                         imageFilters.filterGrayscale = true;
+                    }
+                }
+                
+                saveImageFilters();
+            },
+            
+            togglePosterize: function(enabled) {
+                if (enabled || enabled === false)
+                {
+                    imageFilters.filterPosterize = enabled;
+                }
+                else
+                {
+                    if (imageFilters.filterPosterize)
+                    {
+                        imageFilters.filterPosterize = false;
+                    }
+                    else
+                    {
+                        imageFilters.filterPosterize = true;
                     }
                 }
                 

@@ -33,11 +33,34 @@
                 canvas.onmousemove = handleMouseMove;
                 canvas.onmouseout = handleMouseOut;
                 
+                // Stolen from CamanJS documentation
+                Caman.Filter.register("posterize", function (adjust) {
+                  // Pre-calculate some values that will be used
+                  var numOfAreas = 256 / adjust;
+                  var numOfValues = 255 / (adjust - 1);
+                
+                  // Our process function that will be called for each pixel.
+                  // Note that we pass the name of the filter as the first argument.
+                  this.process("posterize", function (rgba) {
+                    rgba.r = Math.floor(Math.floor(rgba.r / numOfAreas) * numOfValues);
+                    rgba.g = Math.floor(Math.floor(rgba.g / numOfAreas) * numOfValues);
+                    rgba.b = Math.floor(Math.floor(rgba.b / numOfAreas) * numOfValues);
+                
+                    // Return the modified RGB values
+                    return rgba;
+                  });
+                });
+                
                 function renderImage() {
                     var imageFilters = agCanvasService.getImageFilters();
 
                     Caman(camanCanvas, image.src, function() {
                         this.revert();
+                        
+                        if (imageFilters.filterPosterize)
+                        {
+                            this.posterize(5);
+                        }
 
                         if (imageFilters.filterGrayscale)
                         {

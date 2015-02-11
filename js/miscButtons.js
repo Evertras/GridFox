@@ -8,6 +8,13 @@
             controller: ['$scope', 'agCanvasService', function($scope, agCanvasService) {
                 var self = this;
                 
+                self.saveImage = function()
+                {
+                    // Hacky :(
+                    var dataURL = $("canvas")[0].toDataURL('image/png');
+                    window.open(dataURL);
+                };
+                
                 $scope.fileNameChanged = function()
                 {
                     var file = $("#imageFile")[0].files[0];
@@ -17,7 +24,8 @@
                     };
                     reader.readAsDataURL(file);
                 };
-            }]
+            }],
+            controllerAs: 'miscButtonsCtrl'
         };
-    })
+    });
 })();

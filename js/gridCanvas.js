@@ -274,6 +274,7 @@
                 });
                 
                 $scope.$on('user:canvasSettingsUpdated', function(event, data) {
+                    updateSizing();
                     draw();
                 });
                 

@@ -17,6 +17,13 @@
         button:focus {
             outline: 0 !important;
         }
+        .colorViewer {
+            position:fixed;
+            float:left;
+            display:none;
+            left:20px;
+            top:40%;
+        }
     </style>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -48,6 +55,10 @@
             <!-- Canvas/image itself -->
             <div class="col-sm-12">
                 <grid-canvas></grid-canvas>
+            </div>
+            
+            <div class="hidden-print">
+                <color-viewer></color-viewer>
             </div>
 
             <!-- Misc buttons -->

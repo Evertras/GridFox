@@ -12,6 +12,8 @@
                 var camanCanvas = $("#camanCanvas")[0];
                 var context = canvas.getContext('2d');
                 var camanContext = camanCanvas.getContext('2d');
+                var colorViewerCanvas = $("#colorViewerCanvas")[0];
+                var colorViewerContext = colorViewerCanvas.getContext('2d');
                 
                 var isDragging = false;
                 var initialMousePos = {
@@ -35,6 +37,7 @@
                 canvas.onmouseup = handleMouseUp;
                 canvas.onmousemove = handleMouseMove;
                 canvas.onmouseout = handleMouseOut;
+                canvas.onmouseover = handleMouseOver;
                 
                 // Stolen from CamanJS documentation
                 Caman.Filter.register("posterize", function (adjust) {
@@ -74,6 +77,42 @@
                             draw();
                         });
                     });
+                }
+                
+                function drawColorViewer(x, y)
+                {
+                    colorViewerContext.clearRect(0, 0, colorViewerCanvas.width, colorViewerCanvas.height);
+                    
+                    var pixel = context.getImageData(x, y, 1, 1).data;
+                    
+                    var r = pixel[0];
+                    var g = pixel[1];
+                    var b = pixel[2];
+                    
+                    colorViewerContext.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+                    colorViewerContext.fillRect(0, 0, colorViewerCanvas.width, colorViewerCanvas.height);
+
+                    var i;
+                    var numValues = 5;
+                    var value;
+                    var xPos;
+                    var width = colorViewerCanvas.width / numValues;
+                    
+                    for (i = 0; i < numValues; ++i)
+                    {
+                        value = i * 255.0 / numValues;
+                        xPos = i * width;
+                        colorViewerContext.fillStyle = "rgb(" + value + "," + value + "," + value + ")";
+                        colorViewerContext.fillRect(xPos, colorViewerCanvas.height * 2 / 3, width, colorViewerCanvas.height / 3);
+                    }
+                    
+                    /*
+                    var grd = colorViewerContext.createLinearGradient(0, 0, colorViewerCanvas.width, 0);
+                    grd.addColorStop(0, '#000000');   
+                    grd.addColorStop(1, '#FFFFFF');
+                    colorViewerContext.fillStyle = grd;
+                    colorViewerContext.fillRect(0, colorViewerCanvas.height * 2 / 3, colorViewerCanvas.width, colorViewerCanvas.height / 3);
+                    */
                 }
 
                 function draw() {
@@ -205,11 +244,17 @@
                 }
             
                 function handleMouseUp(e){
-                  isDragging=false;
+                    isDragging=false;
                 }
             
                 function handleMouseOut(e){
-                  isDragging=false;
+                    isDragging=false;
+                    $(colorViewerCanvas).hide();
+                }
+                
+                function handleMouseOver(e){
+                    isDragging=false;
+                    $(colorViewerCanvas).show();
                 }
                 
                 function updateMousePos(e)
@@ -219,18 +264,27 @@
                 }
             
                 function handleMouseMove(e){
-                  if(isDragging){
-                      var imageAlterations = agCanvasService.getImageAlterations();
-                      var adjustment = image.width / canvas.width / imageAlterations.zoomFactor;
-                      var changeX = parseInt(e.clientX, 10) - initialMousePos.x;
-                      var changeY = parseInt(e.clientY, 10) - initialMousePos.y;
+                    if(isDragging){
+                        var imageAlterations = agCanvasService.getImageAlterations();
+                        var adjustment = image.width / canvas.width / imageAlterations.zoomFactor;
+                        var changeX = parseInt(e.clientX, 10) - initialMousePos.x;
+                        var changeY = parseInt(e.clientY, 10) - initialMousePos.y;
                       
-                      agCanvasService.adjustOffset(adjustment * changeX, adjustment * changeY);
+                        agCanvasService.adjustOffset(adjustment * changeX, adjustment * changeY);
                       
-                      updateMousePos(e);
+                        updateMousePos(e);
                       
-                      draw();
-                  }
+                        draw();
+                    }
+                    else
+                    {
+                        //$(colorViewerCanvas).css({
+                        //    left:  e.pageX - 600,
+                        //    top:   e.pageY - 150
+                        //});
+                        
+                        drawColorViewer(e.offsetX, e.offsetY);
+                    }
                 }
                 
                 $window.onresize = function(event) {

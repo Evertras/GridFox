@@ -97,10 +97,13 @@
                     var value;
                     var xPos;
                     var width = colorViewerCanvas.width / numValues;
+                    var valueStep = 255.0 / (numValues - 1);
+                    
+                    console.log(valueStep);
                     
                     for (i = 0; i < numValues; ++i)
                     {
-                        value = i * 255.0 / numValues;
+                        value = Math.floor(i * valueStep);
                         xPos = i * width;
                         colorViewerContext.fillStyle = "rgb(" + value + "," + value + "," + value + ")";
                         colorViewerContext.fillRect(xPos, colorViewerCanvas.height * 2 / 3, width, colorViewerCanvas.height / 3);

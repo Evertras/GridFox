@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Gridify It</title>
+    
+    <meta name="description" content="A simple web app for artists to overlay grids and apply filters to reference photos">
+
+    <style>
+        body {
+            background-color: ivory;
+        }
+        button:focus {
+            outline: 0 !important;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    
+    <h1 class="text-center hidden-print">About Gridify It</h1>
+    
+    <panel>
+        <h2>Who am I?</h2>
+        <blockquote>
+            Hi.  I'm Brandon Fulljames.  I'm a programmer that works on
+            enterprise-level back end web applications.  I'm a beginner at
+            oil painting on the side.  You can reach me at
+            <a href="mailto:bfullj@gmail.com">bfullj@gmail.com</a>
+        </blockquote>
+    </panel>
+    <panel>
+        <h2>Why did I make this?</h2>
+        <blockquote>
+            I wanted to put a grid over reference photos and discovered that this is
+            actually a lot harder to do with existing tools than I thought.  Being
+            a programmer means you can just make this stuff.  So I did!  I used this
+            as an opportunity to learn more AngularJS along with fancy new HTML5
+            features, so it's a win/win as it's keeping my skills sharp and improves
+            my front end development, which is a little rusty.
+        </blockquote>
+    </panel>
+    <panel>
+        <h2>Why did I share this?</h2>
+        <blockquote>
+            I like making stuff that other people can use.  It makes me really happy
+            seeing people get use out of this!  I also really appreciate feedback
+            and criticism to improve, as this is related to my job and doing this
+            as a side project helps make me better at my job.
+        </blockquote>
+    </panel>
+    <panel>
+        <h2>Where do my images go?  How does this work?</h2>
+        <blockquote>
+            Nowhere.  Nothing is uploaded to the server.  I can't see what you're
+            importing because it's never sent anywhere.  It's all local in your
+            browser!  I do this mostly for privacy concerns, and partially because
+            images flying all over the internet can start eating up bandwidth that
+            isn't necessary to use.  It's a win for everyone.  Everything is saved
+            locally as well, so you should be able to pick up right where you left
+            off if you close your browser.  Just remember it won't transfer to
+            another device!
+        </blockquote>
+    </panel>
+    <panel>
+        <h2>How does the height and width work?</h2>
+        <blockquote>
+            You probably noticed that there's no 'inches' or 'centimeters' with the
+            height and width.  This is because these are just ratios to help size
+            the canvas.  If you have a canvas that's 18" by 24", for example, just put
+            in 18 and 24.  If it's 30 centimeters by 30 centimeters, just put in 30
+            and 30.  Since the canvas has to resize itself to fit the page anyway,
+            there's no point in using specific units.  It's only to figure out the aspect
+            ratio and help plan out your piece.
+        </blockquote>
+    </panel>
+    <panel>
+        <h2>What's the 'phi' grid?</h2>
+        <blockquote>
+            Phi is a grid based on the golden ratio and is thought to be more pleasing
+            to the eye than the more general 'rule of thirds' in some cases.  Play
+            around with it and make your own judgements with your compositions.
+        </blockquote>
+    </panel>
+    <panel>
+        <h2>Does this work for tablets?</h2>
+        <blockquote>
+            You know what would be awesome?  Being able to upload your images from
+            your smart phone or tablet and doing stuff from there.  You know what
+            would be even more awesome?  If this actually worked right now.  I'm
+            looking into it, but in the meantime there are a fair amount of apps
+            out there for iOS and Android that might work better for you.
+        </blockquote>
+    </panel>
+    <panel>
+        <h2>Who pays for the hosting?</h2>
+        <blockquote>
+            I do.  It's not an inconsequential amount, so if anyone ever offers to
+            buy me a Coke Zero through Paypal I certainly wouldn't say no.  But I don't plan on
+            putting any ads up or any 'Donate' style buttons for the moment.  If
+            for some reason this starts getting thousands of hits a day I might have
+            to in order to cover costs, just as a warning.
+        </blockquote>
+    </panel>
+    <panel>
+        <h2>Something is broken, help!</h2>
+        <blockquote>
+            I post most updates in the
+            <a href="https://www.facebook.com/groups/425486324275168/">Lachri Fine Art Facebook Group</a>
+            but you can also just <a href="mailto:bfullj@gmail.com">e-mail me directly</a>.
+            Please include what browser you're using and exactly what's going wrong.
+            More information means I can fix it more easily.
+        </blockquote>
+    </panel>
+    <panel>
+        <h2>I have a really cool idea, can you make it do X?</h2>
+        <blockquote>
+            Maybe!  I'm definitely open to ideas.  I do want to keep things
+            relatively clean and simple.  I don't want the page to fill up
+            much more than it is already, and I want every tool to be simple
+            and clear in its use.  Layers, for example, are too complicated
+            for this.  Something like a color palette, though, is something
+            I'll be looking into.
+        </blockquote>
+    </panel>
+    <panel>
+        <h2>Who's awesome?</h2>
+        <blockquote>
+            <a href="http://www.lachri.com/">Lachri Fine Art is awesome!</a>
+        </blockquote>
+    </panel>
+</body>
+
+</html>

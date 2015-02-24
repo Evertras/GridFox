@@ -100,7 +100,7 @@
                     
                     for (i = 0; i < numValues; ++i)
                     {
-                        value = i * 255.0 / numValues;
+                        value = i * 255.0 / (numValues - 1);
                         xPos = i * width;
                         colorViewerContext.fillStyle = "rgb(" + value + "," + value + "," + value + ")";
                         colorViewerContext.fillRect(xPos, colorViewerCanvas.height * 2 / 3, width, colorViewerCanvas.height / 3);
